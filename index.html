@@ -379,13 +379,13 @@ function quizSlide(target,isSmall){
       d.onclick=(ev)=>{ev.stopPropagation();
         if(c===target){d.classList.add('right');sfx.tada();confetti(36);sparkles();
           [...qwrap.children].forEach(o=>{if(o!==d)o.classList.add('dim');});
-          say('Yes! That’s '+(isSmall?'small ':'big ')+shown(target)+'! 🎉');
+          say('Yes! That’s '+(isSmall?'lowercase ':'uppercase ')+shown(target)+'! 🎉');
         }else{d.classList.add('wrong');sfx.wrong();say('Almost — try again!');
           setTimeout(()=>d.classList.remove('wrong'),500);}
       };
       qwrap.appendChild(d);
     });
-    say('Can you find '+(isSmall?'small ':'big ')+shown(target)+'? Tap it!');
+    say('Can you find '+(isSmall?'lowercase ':'uppercase ')+shown(target)+'? Tap it!');
   }};
 }
 
@@ -417,20 +417,20 @@ function buildSlides(ch){
     cardE.textContent=words.map(x=>x[0]).slice(0,3).join('');cardW.innerHTML='<b>'+U+'</b> words!';
     card.classList.add('show');say('So many <b>'+U+'</b> words! 🎉');}});
   s.push({bg:'pink',enter:async()=>{show('form');newLetter(BIG[U]);
-    say('Watch how to write <b>big '+U+'</b>');await drawLetter(BIG[U]);sfx.chime();say('That’s <b>big '+U+'</b>! 👏');}});
+    say('Watch how to write <b>uppercase '+U+'</b>');await drawLetter(BIG[U]);sfx.chime();say('That’s <b>uppercase '+U+'</b>! 👏');}});
   s.push({bg:'pink',enter:async()=>{show('form');newLetter(BIG[U]);sdot.classList.add('pulse');
-    say('Your turn! <b>Trace</b> it with your finger','Your turn! Trace big '+U+' with your finger, nice and slow');
+    say('Your turn! <b>Trace</b> it with your finger','Your turn! Trace uppercase '+U+' with your finger, nice and slow');
     await drawLetter(BIG[U],true);sdot.classList.remove('pulse');sfx.chime();say('Beautiful <b>'+U+'</b>! ⭐');}});
   s.push(quizSlide(ch,false));
   s.push({bg:'pink',enter:async()=>{show('form');newLetter(SMALL[ch]);
-    say('Now <b>small '+ch+'</b>');await drawLetter(SMALL[ch]);sfx.chime();say('That’s <b>small '+ch+'</b>! ⭐');}});
+    say('Now <b>lowercase '+ch+'</b>');await drawLetter(SMALL[ch]);sfx.chime();say('That’s <b>lowercase '+ch+'</b>! ⭐');}});
   s.push({bg:'pink',enter:async()=>{show('form');newLetter(SMALL[ch]);sdot.classList.add('pulse');
-    say('<b>Trace</b> small '+ch+' with your finger','Trace small '+ch+' with your finger');
+    say('<b>Trace</b> lowercase '+ch+' with your finger','Trace lowercase '+ch+' with your finger');
     await drawLetter(SMALL[ch],true);sdot.classList.remove('pulse');sfx.chime();say('Lovely tracing! 👏');}});
   s.push(quizSlide(ch,true));
   s.push({bg:'cream',enter:async()=>{show('compare');
     cmpBig.textContent=U;cmpSmall.textContent=ch;sfx.tada();melody();
-    say('Big <b>'+U+'</b> and small <b>'+ch+'</b> — great work!');confetti(56);}});
+    say('Uppercase <b>'+U+'</b> and lowercase <b>'+ch+'</b> — great work!');confetti(56);}});
   return s;
 }
 
