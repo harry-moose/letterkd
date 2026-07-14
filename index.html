@@ -135,9 +135,15 @@
   .caption span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .caption b{color:var(--red)}
 
-  .videoWrap{width:84%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;
-    box-shadow:0 10px 26px rgba(0,0,0,.25);pointer-events:auto;background:#000}
-  .videoWrap iframe{width:100%;height:100%;border:0;display:block}
+  .videoWrap{pointer-events:auto;display:flex;align-items:center;justify-content:center}
+  .videoBtn{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;
+    background:#e62117;color:#fff;font-weight:800;font-size:clamp(20px,4vw,36px);
+    padding:.8em 1.4em;border-radius:34px;text-align:center;
+    box-shadow:0 8px 0 rgba(0,0,0,.16), 0 14px 26px rgba(0,0,0,.2);
+    animation:bob 3s ease-in-out infinite}
+  .videoBtn small{font-size:.48em;font-weight:700;opacity:.92}
+  .videoBtn:hover{transform:scale(1.05)}
+  .videoBtn:active{transform:translateY(3px)}
   .fx{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
   .note-fx{position:absolute;font-weight:800;animation:noteFloat linear infinite}
   .conf{position:absolute;top:-8%;width:12px;height:15px;border-radius:3px}
@@ -310,6 +316,19 @@ const WORDS={
  x:[['🦊','fox'],['📦','box'],['6️⃣','six']],
  y:[['🪀','yo-yo'],['💛','yellow'],['🥱','yawn']],
  z:[['🦓','zebra'],['🤐','zip'],['⚡','zigzag'],['0️⃣','zero']]
+};
+const VIDEOS={   /* letter -> YouTube video ID; add more lines as you get links */
+ a:'KGZFmW3uPJE',
+ b:'f1bcER1Zzak',
+ c:'SNgUoinyQUU',
+ d:'b4TMK3zcfRs',
+ e:'BMLtpWCdBeY',
+ f:'LWMED_3Nvig',
+ g:'39prtfpkRkU',
+ h:'PUI5-AphjMg',
+ i:'b_gJVJvOA3Q',
+ j:'8wNIYNyG37g',
+ k:'jdI2ad0lNpA'
 };
 const SOUND={
  q:'<b>Q</b> says “kw” — Q always brings <b>u</b>!',
@@ -531,10 +550,11 @@ function buildSlides(ch){
   s.push({bg:'cream',enter:async()=>{show('compare');
     cmpBig.textContent=U;cmpSmall.textContent=ch;sfx.tada();melody();
     say('Uppercase <b>'+U+'</b> and lowercase <b>'+ch+'</b> — great work!');confetti(56);}});
-  if(ch==='g'){
+  if(VIDEOS[ch]){
     s.push({bg:'blue',enter:async()=>{show('video');
-      videoWrap.innerHTML='<iframe src="https://www.youtube.com/embed/39prtfpkRkU" title="Letter G video" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-      say('Bonus! A <b>G</b> video ▶️');}});
+      videoWrap.innerHTML='<a class="videoBtn" href="https://youtu.be/'+VIDEOS[ch]+'" target="_blank" rel="noopener">'+
+        '<span>▶️ Watch the letter '+U+' video!</span><small>opens on YouTube</small></a>';
+      say('Want to watch the <b>'+U+'</b> video? Tap the button!');}});
   }
   return s;
 }
