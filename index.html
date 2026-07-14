@@ -20,9 +20,9 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:linear-gradient(180deg,#aee1ff 0%,#e7f6ff 60%,#f3fbff 100%);
     font-family:var(--font);display:flex;
-    flex-direction:column;align-items:center;gap:16px;padding:18px;min-height:100vh;justify-content:center}
+    flex-direction:column;align-items:center;gap:16px;padding:84px 18px 22px;min-height:100vh;justify-content:center}
 
-  #home{width:100%;max-width:760px;display:none;flex-direction:column;gap:18px;align-items:center}
+  #home{width:100%;max-width:900px;display:none;flex-direction:column;gap:18px;align-items:center}
   #home.on{display:flex}
   .title{font-size:clamp(30px,7vw,52px);font-weight:800;color:#3d5aa9;text-align:center;
     text-shadow:0 3px 0 #fff}
@@ -45,13 +45,28 @@
   .cell small{font-size:.62em;font-weight:800;opacity:.92;align-self:flex-end;margin-bottom:.35em}
   @keyframes cellIn{to{opacity:1;transform:none}}
 
-  #deck{display:none;flex-direction:column;gap:16px;align-items:center;width:100%;max-width:760px}
+  #deck{display:none;flex-direction:column;gap:8px;align-items:center;width:100%}
   #deck.on{display:flex}
-  .stage{position:relative;width:100%;aspect-ratio:16/9;
+  .row{position:relative;display:flex;align-items:center;justify-content:center;gap:16px;width:100%}
+  .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .side{width:66px;height:66px;border-radius:50%;font-size:28px;padding:0;flex:none;background:#ff9f43}
+  .homefix{position:fixed;top:16px;left:16px;z-index:50;background:#58c472}
+  .meta{display:flex;align-items:center;gap:8px}
+  @media(max-width:700px){
+    .side{position:absolute;z-index:30;width:48px;height:48px;font-size:22px;opacity:.92}
+    #prev{left:2px}
+    #next{right:2px}
+  }
+  .stage{position:relative;aspect-ratio:16/9;
+    width:min(calc(100vw - 200px), calc((100vh - 260px) * 16 / 9));
+    max-width:96vw;
     border-radius:26px;overflow:hidden;
     border:8px solid #fff;
     box-shadow:0 16px 40px rgba(60,100,180,.28);
     background:var(--cream);transition:background .6s ease;cursor:pointer}
+  @media(max-width:700px){
+    .stage{width:min(94vw, calc((100vh - 300px) * 16 / 9))}
+  }
 
   /* sun + clouds (reusing the old blob divs) */
   .blob{position:absolute;pointer-events:none;z-index:0}
@@ -111,14 +126,18 @@
   .startdot.pulse{animation:pulse 1s ease-in-out infinite}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
 
-  .caption{position:absolute;left:50%;bottom:5.5%;transform:translateX(-50%) translateY(10px);
-    background:var(--pill);color:var(--ink);font-weight:700;
-    font-size:clamp(14px,3vw,24px);padding:.5em 1.2em;border-radius:40px;
-    border:4px solid #ffd93d;
-    box-shadow:0 6px 16px rgba(60,100,180,.18);white-space:nowrap;opacity:0;transition:all .4s;max-width:94%;overflow:hidden;text-overflow:ellipsis;z-index:6}
-  .caption.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .caption{background:var(--pill);color:var(--ink);font-weight:700;
+    font-size:clamp(15px,2.6vw,26px);padding:.5em 1.3em;border-radius:40px;
+    border:4px solid #ffd93d;min-height:2.5em;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px rgba(60,100,180,.18);white-space:nowrap;opacity:0;transform:translateY(8px);
+    transition:all .35s;max-width:94vw;overflow:hidden;text-overflow:ellipsis}
+  .caption.on{opacity:1;transform:translateY(0)}
+  .caption span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .caption b{color:var(--red)}
 
+  .videoWrap{width:84%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;
+    box-shadow:0 10px 26px rgba(0,0,0,.25);pointer-events:auto;background:#000}
+  .videoWrap iframe{width:100%;height:100%;border:0;display:block}
   .fx{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
   .note-fx{position:absolute;font-weight:800;animation:noteFloat linear infinite}
   .conf{position:absolute;top:-8%;width:12px;height:15px;border-radius:3px}
@@ -131,7 +150,6 @@
   @keyframes confettiFall{0%{top:-8%;transform:translateX(0) rotate(0);opacity:0}
     10%{opacity:1}88%{opacity:1}100%{top:108%;transform:translateX(var(--dx)) rotate(var(--rot));opacity:.5}}
 
-  .nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
   button{font-family:var(--font);font-weight:800;font-size:16px;color:#fff;background:#ff9f43;
     border:0;border-radius:999px;padding:12px 24px;cursor:pointer;
     box-shadow:0 5px 0 rgba(0,0,0,.14)}
@@ -140,9 +158,23 @@
   button.ghost{background:#58c472}
   .count{font-weight:800;color:#3d5aa9;min-width:60px;text-align:center;font-size:16px}
   .note{color:#4a6b8a;font-size:12.5px;text-align:center}
+  .themefix{position:fixed;top:16px;right:16px;z-index:55;background:#c39bd3}
+  .themePanel{position:fixed;top:70px;right:16px;z-index:60;display:none;flex-direction:column;gap:8px;
+    background:#fff;border-radius:18px;padding:12px;box-shadow:0 12px 28px rgba(40,60,120,.25)}
+  .themePanel.open{display:flex}
+  .themePanel button{background:#f1f3f9;color:var(--ink);box-shadow:none;text-align:left;padding:10px 16px}
+  .themePanel button:hover{background:#e4e9f5}
+  .deco{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .deco span{position:absolute;animation:decoFloat 4s ease-in-out infinite}
+  @keyframes decoFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+  body.no-sun .b1,body.no-sun .b2,body.no-sun .b3{display:none}
+  #deck.on,#home.on{margin:auto}
 </style>
 </head>
 <body>
+
+  <button class="themefix" id="themeBtn">🎨 Theme</button>
+  <div class="themePanel" id="themePanel"></div>
 
   <div id="home" class="on">
     <div class="title">🌈 Letter Time! ☀️</div>
@@ -151,8 +183,12 @@
   </div>
 
   <div id="deck">
-    <div class="stage" id="stage">
-      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <button class="homefix" id="homeBtn">🏠 Letters</button>
+    <div class="row">
+      <button class="side" id="prev" aria-label="Previous">←</button>
+      <div class="col">
+        <div class="stage" id="stage">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="deco" id="deco"></div>
       <div class="layer" id="lSound"><div class="floaty"><div class="bigG" id="bigLetter">G</div></div></div>
       <div class="layer" id="lWords">
         <div class="card" id="card"><div class="emoji"></div><div class="word"></div></div>
@@ -169,14 +205,13 @@
       <div class="layer" id="lCompare">
         <div class="pair"><span class="cg" id="cmpBig">G</span><span class="cg sm" id="cmpSmall">g</span></div>
       </div>
+      <div class="layer" id="lVideo"><div class="videoWrap" id="videoWrap"></div></div>
       <div class="fx" id="fx"></div>
-      <div class="caption" id="cap"></div>
-    </div>
-    <div class="nav">
-      <button class="ghost" id="homeBtn">🏠 Letters</button>
-      <button id="prev">← Prev</button>
-      <span class="count" id="count"></span>
-      <button id="next">Next →</button>
+        </div>
+        <div class="caption" id="cap"></div>
+        <div class="meta"><span class="count" id="count"></span></div>
+      </div>
+      <button class="side" id="next" aria-label="Next">→</button>
     </div>
     <div class="note">tap the picture to replay • silent by design — narration goes on in Resolve</div>
   </div>
@@ -295,13 +330,15 @@ const stripTags=h=>h.replace(/<[^>]*>/g,'').replace(/…/g,',').replace(/[“”
 const home=document.getElementById('home'), deck=document.getElementById('deck');
 const stage=document.getElementById('stage'), cap=document.getElementById('cap'), fx=document.getElementById('fx');
 const layers={sound:document.getElementById('lSound'),words:document.getElementById('lWords'),
-  form:document.getElementById('lForm'),quiz:document.getElementById('lQuiz'),compare:document.getElementById('lCompare')};
+  form:document.getElementById('lForm'),quiz:document.getElementById('lQuiz'),compare:document.getElementById('lCompare'),video:document.getElementById('lVideo')};
 const bigLetter=document.getElementById('bigLetter'), card=document.getElementById('card');
 const cardE=card.querySelector('.emoji'), cardW=card.querySelector('.word');
 const guideG=document.getElementById('guideG'), inkG=document.getElementById('inkG');
 const pen=document.getElementById('pen'), sdot=document.getElementById('sdot');
 const cmpBig=document.getElementById('cmpBig'), cmpSmall=document.getElementById('cmpSmall');
 const qwrap=document.getElementById('qwrap');
+const videoWrap=document.getElementById('videoWrap');
+videoWrap.addEventListener('click',e=>e.stopPropagation());
 
 const grid=document.getElementById('grid');
 [...'abcdefghijklmnopqrstuvwxyz'].forEach((ch,i)=>{
@@ -311,6 +348,69 @@ const grid=document.getElementById('grid');
   b.onclick=()=>{location.hash=ch;};
   grid.appendChild(b);
 });
+
+/* ---------- themes ---------- */
+let CONFETTI_COLS=['#ff5d5d','#ffb347','#ffd93d','#7ed48f','#6fc7f2','#c39bd3'];
+const THEMES={
+ candy:{label:'Candy',emoji:'🍬',sun:true,deco:[],
+   body:'linear-gradient(180deg,#aee1ff 0%,#e7f6ff 60%,#f3fbff 100%)',
+   confetti:['#ff5d5d','#ffb347','#ffd93d','#7ed48f','#6fc7f2','#c39bd3'],
+   vars:{'--cream':'#fff6c9','--sage':'#d9f4dd','--pink':'#ffe3d4','--blue':'#d9edff','--brown':'#6b4fc8','--brown-d':'#4a3aa0','--red':'#ff5d5d'}},
+ ocean:{label:'Ocean',emoji:'🐠',sun:true,deco:['🐠','🐚','🌊','🐙'],
+   body:'linear-gradient(180deg,#7fd8f7 0%,#c4ecfb 60%,#e8f9ff 100%)',
+   confetti:['#0984e3','#00cec9','#74b9ff','#a3e4d7','#ffffff'],
+   vars:{'--cream':'#e0f7fa','--sage':'#d4f5e9','--pink':'#dcefff','--blue':'#cfe9ff','--brown':'#0b5394','--brown-d':'#083b6b','--red':'#ff7675'}},
+ sunset:{label:'Sunset',emoji:'🌅',sun:true,deco:['🌅','🦩','🌴'],
+   body:'linear-gradient(180deg,#ffb88c 0%,#ffd6a5 60%,#fff1e0 100%)',
+   confetti:['#e17055','#fdcb6e','#e84393','#fab1a0','#ffeaa7'],
+   vars:{'--cream':'#fff0d9','--sage':'#ffe4c7','--pink':'#ffd9d0','--blue':'#f7e1ff','--brown':'#b03a5b','--brown-d':'#7e2a42','--red':'#e17055'}},
+ christmas:{label:'Christmas',emoji:'🎄',sun:false,deco:['🎄','❄️','⛄','🎁'],
+   body:'linear-gradient(180deg,#dfefff 0%,#f4faff 60%,#ffffff 100%)',
+   confetti:['#d63031','#2e8b57','#ffd700','#ffffff'],
+   vars:{'--cream':'#fdf6f6','--sage':'#e3f3e6','--pink':'#fbe4e4','--blue':'#e8f1fb','--brown':'#b3202e','--brown-d':'#7e1621','--red':'#2e8b57'}},
+ halloween:{label:'Halloween',emoji:'🎃',sun:false,deco:['🎃','👻','🦇','🕸️'],
+   body:'linear-gradient(180deg,#b8a1e3 0%,#d9c8f2 60%,#f3ecff 100%)',
+   confetti:['#e17055','#6c3483','#2d3436','#f39c12'],
+   vars:{'--cream':'#f8eede','--sage':'#efe3f7','--pink':'#ffe3c9','--blue':'#e6dcf5','--brown':'#5b2c86','--brown-d':'#3f1e5e','--red':'#e67e22'}},
+ easter:{label:'Easter',emoji:'🐰',sun:true,deco:['🐰','🥚','🌷','🐣'],
+   body:'linear-gradient(180deg,#d8f3dc 0%,#f0fff2 60%,#ffffff 100%)',
+   confetti:['#f8a5c2','#a3e4d7','#ffeaa7','#c7b9ff','#ffffff'],
+   vars:{'--cream':'#fdf9e3','--sage':'#e2f7e7','--pink':'#fce5f0','--blue':'#e7e2fa','--brown':'#8e6bbf','--brown-d':'#6b4e94','--red':'#f78fb3'}},
+ pokemon:{label:'Pokémon',emoji:'⚡',sun:true,deco:['⚡','🔴','✨','🎮'],
+   body:'linear-gradient(180deg,#ffe066 0%,#fff3bf 60%,#fffbe6 100%)',
+   confetti:['#e3350d','#ffcb05','#3b4cca','#ffffff'],
+   vars:{'--cream':'#fff8d6','--sage':'#e2f0ff','--pink':'#ffe0dc','--blue':'#dcefff','--brown':'#3b4cca','--brown-d':'#2a3694','--red':'#e3350d'}},
+ minecraft:{label:'Minecraft',emoji:'⛏️',sun:true,deco:['⛏️','🟩','💎','🧱'],
+   body:'linear-gradient(180deg,#a8d5a2 0%,#d7ecd0 60%,#f2f9ef 100%)',
+   confetti:['#3f7d2c','#8b5a2b','#57c4e5','#7f7f7f'],
+   vars:{'--cream':'#f0ead8','--sage':'#ddefd2','--pink':'#e8dcc8','--blue':'#d8e8ef','--brown':'#3f7d2c','--brown-d':'#2b5a1e','--red':'#c0392b'}},
+ mario:{label:'Mario',emoji:'🍄',sun:true,deco:['🍄','⭐','🐢','🧱'],
+   body:'linear-gradient(180deg,#8ec9ff 0%,#c9e6ff 60%,#eef7ff 100%)',
+   confetti:['#d92b2b','#f8d21a','#43b047','#2a6bd6'],
+   vars:{'--cream':'#fff2cf','--sage':'#dff3db','--pink':'#ffe0d6','--blue':'#d9ebff','--brown':'#d92b2b','--brown-d':'#a11f1f','--red':'#2a6bd6'}}
+};
+const themeBtn=document.getElementById('themeBtn'), themePanel=document.getElementById('themePanel'), decoEl=document.getElementById('deco');
+const DECO_POS=[{left:'4%',top:'9%'},{right:'5%',top:'11%'},{left:'7%',bottom:'11%'},{right:'8%',bottom:'13%'}];
+function applyTheme(id){const t=THEMES[id]||THEMES.candy;
+  for(const k in t.vars)document.documentElement.style.setProperty(k,t.vars[k]);
+  document.body.style.background=t.body;
+  CONFETTI_COLS=t.confetti;
+  document.body.classList.toggle('no-sun',!t.sun);
+  decoEl.innerHTML='';
+  (t.deco||[]).forEach((e,i)=>{const s=document.createElement('span');s.textContent=e;
+    const p=DECO_POS[i%DECO_POS.length];for(const k in p)s.style[k]=p[k];
+    s.style.fontSize=(30+Math.random()*14)+'px';
+    s.style.animationDuration=(3+i*.7)+'s';decoEl.appendChild(s);});
+  themePanel.classList.remove('open');
+  try{localStorage.setItem('lt-theme',id);}catch(err){}
+}
+Object.entries(THEMES).forEach(([id,t])=>{
+  const b=document.createElement('button');b.textContent=t.emoji+' '+t.label;
+  b.onclick=()=>applyTheme(id);themePanel.appendChild(b);});
+themeBtn.onclick=(e)=>{e.stopPropagation();themePanel.classList.toggle('open');};
+document.addEventListener('click',(e)=>{if(!themePanel.contains(e.target)&&e.target!==themeBtn)themePanel.classList.remove('open');});
+let savedTheme='candy';try{savedTheme=localStorage.getItem('lt-theme')||'candy';}catch(err){}
+applyTheme(savedTheme);
 
 /* ---------- fx ---------- */
 function clearFx(){fx.innerHTML='';}
@@ -322,7 +422,7 @@ function notes(){for(let i=0;i<6;i++){const n=document.createElement('div');n.cl
   n.style.animationDuration=(2.4+Math.random()*1.6)+'s';
   n.style.animationDelay=(Math.random()*2.2)+'s';
   fx.appendChild(n);} }
-function confetti(count){const cols=['#c74646','#966e5a','#e6b422','#8fae7a','#e59ab0','#7c5a48'];
+function confetti(count){const cols=CONFETTI_COLS;
   for(let i=0;i<(count||44);i++){const c=document.createElement('div');c.className='conf';
    c.style.left=Math.random()*100+'%';c.style.background=cols[i%cols.length];
    c.style.setProperty('--dx',(Math.random()*90-45)+'px');
@@ -338,7 +438,7 @@ function sparkles(){for(let i=0;i<7;i++){const s=document.createElement('div');s
 /* ---------- drawing ---------- */
 let token=0;
 function show(k){for(const key in layers)layers[key].classList.toggle('on',key===k);}
-function say(h,spoken){cap.innerHTML=h;cap.classList.add('on');speak(spoken!==undefined?spoken:stripTags(h));}
+function say(h,spoken){cap.innerHTML='<span>'+h+'</span>';cap.classList.add('on');speak(spoken!==undefined?spoken:stripTags(h));}
 function hush(){cap.classList.remove('on');}
 function newLetter(strokes){inkG.innerHTML='';guideG.innerHTML='';
   strokes.forEach(s=>{const p=document.createElementNS(NS,'path');p.setAttribute('class','guide');p.setAttribute('d',toPath(s));guideG.appendChild(p);});}
@@ -431,6 +531,11 @@ function buildSlides(ch){
   s.push({bg:'cream',enter:async()=>{show('compare');
     cmpBig.textContent=U;cmpSmall.textContent=ch;sfx.tada();melody();
     say('Uppercase <b>'+U+'</b> and lowercase <b>'+ch+'</b> — great work!');confetti(56);}});
+  if(ch==='g'){
+    s.push({bg:'blue',enter:async()=>{show('video');
+      videoWrap.innerHTML='<iframe src="https://www.youtube.com/embed/39prtfpkRkU" title="Letter G video" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      say('Bonus! A <b>G</b> video ▶️');}});
+  }
   return s;
 }
 
@@ -438,6 +543,7 @@ async function goTo(i){
   index=Math.max(0,Math.min(slides.length-1,i));
   const my=++token;
   pen.style.opacity=0;sdot.style.opacity=0;sdot.classList.remove('pulse');hush();clearFx();
+  videoWrap.innerHTML='';
   prevB.disabled=index===0; nextB.disabled=index===slides.length-1;
   countE.textContent=(index+1)+' / '+slides.length;
   const s=slides[index]; stage.style.background='var(--'+s.bg+')';
@@ -452,10 +558,12 @@ function route(){
   if(h && SMALL[h]){
     current=h; slides=buildSlides(h);
     home.classList.remove('on'); deck.classList.add('on');
+    document.body.classList.add('in-deck');
     goTo(0);
   } else {
     token++; current=null;
       deck.classList.remove('on'); home.classList.add('on');
+    document.body.classList.remove('in-deck');
   }
 }
 window.addEventListener('hashchange',route);
